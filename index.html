@@ -13,6 +13,27 @@
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "MusicGroup", "name": "Louis Janus Thomas", "url": "https://louisjanusthomas.com", "genre": ["Alternative", "Indie"], "foundingLocation": "Brighton", "sameAs": ["https://open.spotify.com/artist/5F0wBHmF6zP9Eul3FQ7f6A", "https://music.apple.com/gb/artist/1472512451", "https://www.deezer.com/artist/69370452", "https://louisjanusthomas.bandcamp.com", "https://www.instagram.com/louisjanusthomas"]}</script>
 <meta name="theme-color" content="#0c0c0b">
 <link rel="stylesheet" href="style.css">
+<script>
+document.addEventListener('submit',function(e){
+  var f=e.target; if(!f.classList||!f.classList.contains('signup'))return;
+  e.preventDefault();
+  var b=f.querySelector('button'), em=f.querySelector('input[type=email]'), note=f.nextElementSibling;
+  if(!em.value||!em.checkValidity()){em.focus();return}
+  b.disabled=true; b.textContent='…';
+  var cb='mc'+Date.now(), s=document.createElement('script');
+  var q=new URLSearchParams(new FormData(f)).toString();
+  var done=function(ok,msg){
+    if(ok){f.classList.add('done');em.disabled=true;b.textContent=/confirm/i.test(msg)?'Check your inbox ✓':'You’re in ✓';
+      if(note)note.textContent=/confirm/i.test(msg)?'One click in the email and you’re in. Check Junk if it’s not there.':'New music lands in your inbox first.';}
+    else{b.disabled=false;b.textContent='Sign up';
+      if(note)note.textContent=/already/i.test(msg)?'You’re already on the list ✓':(/too many/i.test(msg)?'Too many tries. Give it a few minutes.':'That didn’t work. Check the address and try again.');}
+  };
+  window[cb]=function(r){done(r.result==='success',r.msg||'');delete window[cb];s.remove()};
+  s.onerror=function(){done(false,'')};
+  s.src=f.action.replace('/post?','/post-json?')+'&'+q+'&c='+cb;
+  document.body.appendChild(s);
+});
+</script>
 </head>
 <body>
 <header class="top"><a class="name" href="index.html">Louis Janus Thomas</a><nav aria-label="Main"><a href="music.html">Music</a><a href="about.html">About</a><a href="mailer.html">Mailer</a><a href="contact.html">Contact</a><a class="nav-ig" href="https://www.instagram.com/louisjanusthomas" rel="noopener" aria-label="Instagram"><svg class="ig" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"/></svg></a></nav></header>
@@ -29,7 +50,7 @@
 </section><section class="live">
   <a href="https://www.youtube.com/watch?v=PK1HgKhGvKA" rel="noopener"><img src="images/serpent-live.jpg" alt="The Serpent, recorded live at Stiwdio Sain" width="1400" height="788" loading="lazy"></a>
   <div><p class="meta">Live session · Stiwdio Sain · 30.04.2023</p><h2>The Serpent</h2><p class="links"><a class="watch" href="https://www.youtube.com/watch?v=PK1HgKhGvKA" rel="noopener">▶ Watch the live session</a></p></div>
-</section><section class="updates"><h2 class="label-h">Earlier</h2><ul><li><span class="meta">03.07.2026</span><span>Out now · Sugar</span></li></ul></section>
+</section><section class="join"><p class="meta">Mailer</p><h2>New music first.</h2><form class="signup" action="https://louisjanusthomas.us12.list-manage.com/subscribe/post?u=6ef71ec6cdeb04a01488d71c1&amp;id=c5436ca392&amp;f_id=00acf5e0f0" method="post"><label class="vh" for="em-home">Email address</label><input id="em-home" type="email" name="EMAIL" placeholder="your@email.com" autocomplete="email" required><input type="hidden" name="SOURCE" value="home"><div aria-hidden="true" style="position:absolute;left:-5000px"><input type="text" name="b_6ef71ec6cdeb04a01488d71c1_c5436ca392" tabindex="-1" value=""></div><button type="submit">Sign up</button></form><p class="fine">Confirm by email. Unsubscribe any time. <a href="privacy.html">Privacy</a></p></section><section class="updates"><h2 class="label-h">Earlier</h2><ul><li><span class="meta">03.07.2026</span><span>Out now · Sugar</span></li></ul></section>
 </main>
 <footer class="foot"><span>© 2026 Louis Janus Thomas</span><span>Brighton</span><span class="label">Released on UDZ Records</span><a href="privacy.html">Privacy</a><a class="mark" href="index.html" aria-label="Louis Janus Thomas, home"><img src="images/ljt-logo.png" alt="Louis Janus Thomas" width="64" height="28"></a></footer>
 </body>

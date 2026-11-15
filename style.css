@@ -61,6 +61,9 @@ h2{font-weight:700;font-size:clamp(22px,2.4vw,30px);line-height:1.1}
 .signup.big input[type=email]{font-size:18px;padding:18px 18px}
 .signup.big button{font-size:15px;padding:18px 26px}
 .fine{font:400 11px/1.5 "DM Mono",monospace;color:var(--muted);margin:12px 0 0}
+.signup.done input[type=email]{opacity:.5}
+.signup.done button{background:var(--blood);color:var(--ink)}
+.signup button:disabled{cursor:default}
 .fine a{text-decoration:underline;text-underline-offset:3px}
 .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .prose p{max-width:62ch;margin:0 0 14px}
