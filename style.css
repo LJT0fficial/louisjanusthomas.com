@@ -50,6 +50,20 @@ h2{font-weight:700;font-size:clamp(22px,2.4vw,30px);line-height:1.1}
 .live{display:grid;grid-template-columns:minmax(0,520px) 1fr;gap:clamp(24px,4vw,56px);align-items:end;padding-bottom:clamp(64px,12vh,140px)}
 .live img{width:100%;height:auto;display:block}
 .live a:hover img{opacity:.9}
+.join{padding-bottom:clamp(56px,10vh,110px)}
+.join h2{margin-bottom:18px}
+.signup{display:flex;gap:10px;max-width:520px;flex-wrap:wrap}
+.signup input[type=email]{flex:1 1 240px;background:transparent;border:1px solid var(--line);color:var(--ink);font:500 16px/1 "Space Grotesk",sans-serif;padding:14px 16px;border-radius:0;outline:none;transition:border-color .15s}
+.signup input[type=email]::placeholder{color:var(--muted)}
+.signup input[type=email]:focus{border-color:var(--ink)}
+.signup button{background:var(--ink);color:var(--bg);border:0;font:700 14px/1 Syne,sans-serif;padding:14px 22px;cursor:pointer;transition:background .15s,color .15s}
+.signup button:hover,.signup button:focus-visible{background:var(--blood);color:var(--ink)}
+.signup.big input[type=email]{font-size:18px;padding:18px 18px}
+.signup.big button{font-size:15px;padding:18px 26px}
+.fine{font:400 11px/1.5 "DM Mono",monospace;color:var(--muted);margin:12px 0 0}
+.fine a{text-decoration:underline;text-underline-offset:3px}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.prose p{max-width:62ch;margin:0 0 14px}
 .updates{padding-bottom:clamp(48px,8vh,96px)}
 .updates ul{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
 .updates li{display:flex;gap:24px;align-items:baseline;padding:16px 0;border-bottom:1px solid var(--line);font-weight:500}
