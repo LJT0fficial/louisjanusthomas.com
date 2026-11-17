@@ -52,6 +52,25 @@ document.addEventListener('submit',function(e){
   <div><p class="meta">Live session · Stiwdio Sain · 30.04.2023 · 141k streams</p><h2>The Serpent</h2><p class="links"><a class="watch" href="https://www.youtube.com/watch?v=PK1HgKhGvKA" rel="noopener">▶ Watch the live session</a></p></div>
 </section><section class="join"><p class="meta">Mailer</p><h2>New music first.</h2><form class="signup" action="https://louisjanusthomas.us12.list-manage.com/subscribe/post?u=6ef71ec6cdeb04a01488d71c1&amp;id=c5436ca392&amp;f_id=00acf5e0f0" method="post"><label class="vh" for="em-home">Email address</label><input id="em-home" type="email" name="EMAIL" placeholder="your@email.com" autocomplete="email" required><input type="hidden" name="SOURCE" value="home"><div aria-hidden="true" style="position:absolute;left:-5000px"><input type="text" name="b_6ef71ec6cdeb04a01488d71c1_c5436ca392" tabindex="-1" value=""></div><button type="submit">Sign up</button></form><p class="fine">Confirm by email. Unsubscribe any time. <a href="privacy.html">Privacy</a></p></section><section class="updates"><h2 class="label-h">Earlier</h2><ul><li><span class="meta">03.07.2026</span><span>Out now · Sugar</span></li></ul></section>
 </main>
+<aside class="slidein" id="slidein" aria-label="Mailer" hidden><button class="si-x" type="button" aria-label="Close">&times;</button><p class="meta">Mailer</p><p class="si-h">New music first.</p><form class="signup" action="https://louisjanusthomas.us12.list-manage.com/subscribe/post?u=6ef71ec6cdeb04a01488d71c1&amp;id=c5436ca392&amp;f_id=00acf5e0f0" method="post"><label class="vh" for="em-slidein">Email address</label><input id="em-slidein" type="email" name="EMAIL" placeholder="your@email.com" autocomplete="email" required><input type="hidden" name="SOURCE" value="slidein"><div aria-hidden="true" style="position:absolute;left:-5000px"><input type="text" name="b_6ef71ec6cdeb04a01488d71c1_c5436ca392" tabindex="-1" value=""></div><button type="submit">Sign up</button></form><p class="fine">Confirm by email. Unsubscribe any time. <a href="privacy.html">Privacy</a></p></aside>
 <footer class="foot"><span>© 2026 Louis Janus Thomas</span><span>Brighton</span><span class="label">Released on UDZ Records</span><a href="privacy.html">Privacy</a><a class="mark" href="index.html" aria-label="Louis Janus Thomas, home"><img src="images/ljt-logo.png" alt="Louis Janus Thomas" width="64" height="28"></a></footer>
+<script>
+(function(){
+  var K='ljt_mailer', el=document.getElementById('slidein'); if(!el)return;
+  function get(){try{return localStorage.getItem(K)}catch(e){return null}}
+  function set(v){try{localStorage.setItem(K,v)}catch(e){}}
+  var st=get(); if(st==='joined')return; if(st&&+st>Date.now())return;
+  var seen=false, shown=false;
+  var inline=[].slice.call(document.querySelectorAll('main form.signup'));
+  if('IntersectionObserver' in window&&inline.length){var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting)seen=true})});inline.forEach(function(f){io.observe(f)});}
+  function show(){if(shown||seen)return;shown=true;el.hidden=false;requestAnimationFrame(function(){requestAnimationFrame(function(){el.classList.add('in')})});}
+  function hide(days){el.classList.remove('in');setTimeout(function(){el.hidden=true},400);set(String(Date.now()+days*864e5));}
+  setTimeout(show,20000);
+  addEventListener('scroll',function(){var d=document.documentElement;if((scrollY+innerHeight)/d.scrollHeight>0.5)show()},{passive:true});
+  el.querySelector('.si-x').addEventListener('click',function(){hide(30)});
+  addEventListener('keydown',function(e){if(e.key==='Escape'&&shown)hide(30)});
+  document.addEventListener('submit',function(e){if(e.target.closest&&e.target.closest('.slidein')||e.target.classList.contains('signup')){setTimeout(function(){if(document.querySelector('.signup.done'))set('joined')},4000)}});
+})();
+</script>
 </body>
 </html>
