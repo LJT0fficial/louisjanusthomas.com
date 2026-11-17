@@ -63,6 +63,11 @@ a.dl{display:inline-block;margin-top:10px;padding:12px 20px;background:var(--ink
 a.dl:hover,a.dl:focus-visible{opacity:.85}
 .gift .fine{margin-top:16px}
 .gift-link{margin-top:22px}
+body.bare .top,body.bare .foot,body.bare .draft{display:none}
+.vault{min-height:100vh;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;padding:24px;text-align:center}
+.vn{font:800 clamp(140px,38vw,520px)/.85 Syne,sans-serif;letter-spacing:-.04em;margin:0;font-variant-numeric:tabular-nums}
+.vault .gk{display:flex;gap:10px;width:min(420px,100%)}
+.vault #go audio{width:min(420px,90vw);color-scheme:dark}
 .gift>*{min-width:0}.gift h1{overflow-wrap:anywhere}
 @media (max-width:760px){.gift{grid-template-columns:minmax(0,1fr);padding-top:24px}}
 .live a:hover img{opacity:.9}
