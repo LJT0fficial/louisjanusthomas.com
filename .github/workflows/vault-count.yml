@@ -1,0 +1,31 @@
+# Vault countdown: every 10 minutes, ask Mailchimp how many people are subscribed
+# and write vault/count.json = {"left": 100 - subscribers}. Needs the repo secret MAILCHIMP_API_KEY.
+# Approved by Louis, 17 Nov 2026.
+name: Vault count
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency: vault-count
+jobs:
+  count:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Update count from Mailchimp
+        env:
+          KEY: ${{ secrets.MAILCHIMP_API_KEY }}
+        run: |
+          set -e
+          [ -n "$KEY" ] || { echo "MAILCHIMP_API_KEY secret not set yet"; exit 0; }
+          DC="${KEY##*-}"
+          n=$(curl -sf -u "vault:$KEY" "https://$DC.api.mailchimp.com/3.0/lists/c5436ca392/members?status=subscribed&count=1&fields=total_items" | python3 -c "import sys,json;print(json.load(sys.stdin)['total_items'])")
+          left=$((100 - n)); [ "$left" -lt 0 ] && left=0
+          echo "subscribed=$n left=$left"
+          printf '{"left": %d}\n' "$left" > vault/count.json
+          git config user.name "vault-count"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add vault/count.json
+          git diff --cached --quiet || { git commit -m "Vault count: $left"; git push; }
