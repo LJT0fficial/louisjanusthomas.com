@@ -27,7 +27,9 @@ document.addEventListener('submit',function(e){
     else{b.disabled=false;b.textContent='Sign up';
       if(note)note.textContent=/already/i.test(msg)?'You’re already on the list ✓':(/too many/i.test(msg)?'Too many tries. Give it a few minutes.':'That didn’t work. Check the address and try again.');}
   };
-  window[cb]=function(r){done(r.result==='success',r.msg||'');delete window[cb];s.remove()};
+  window[cb]=function(r){delete window[cb];s.remove();
+    if(r.result==='redirect'){b.textContent='One sec…';f.setAttribute('target','_self');HTMLFormElement.prototype.submit.call(f);return}
+    done(r.result==='success',r.msg||'')};
   s.onerror=function(){done(false,'')};
   s.src=f.action.replace('/post?','/post-json?')+'&'+q+'&c='+cb;
   document.body.appendChild(s);
