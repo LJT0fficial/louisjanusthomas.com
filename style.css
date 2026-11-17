@@ -53,6 +53,12 @@ h2{font-weight:700;font-size:clamp(22px,2.4vw,30px);line-height:1.1}
 .gift img{width:100%;height:auto;display:block}
 .gift h1{margin:0 0 14px}
 .gift audio{width:100%;max-width:420px;margin:22px 0 6px;color-scheme:dark}
+.gift .gk{display:flex;gap:10px;max-width:420px;margin-top:22px}
+.gk input{flex:1 1 auto;min-width:0;background:transparent;border:1px solid var(--line);color:var(--ink);font:500 16px/1 "Space Grotesk",sans-serif;padding:14px 16px;border-radius:0;outline:none}
+.gk[hidden]{display:none!important}.gk input:focus{border-color:var(--ink)}.gk input::placeholder{color:var(--muted)}
+.gk button{background:var(--ink);color:var(--bg);border:0;font:700 14px/1 Syne,sans-serif;padding:14px 22px;cursor:pointer;transition:background .15s,color .15s}
+.gk button:hover,.gk button:focus-visible{background:var(--blood);color:var(--ink)}
+#gm{min-height:1.2em;color:#d7261e}
 a.dl{display:inline-block;margin-top:10px;padding:12px 20px;background:var(--ink);color:var(--bg);font-weight:500;font-size:15px;text-decoration:none;transition:opacity .15s}
 a.dl:hover,a.dl:focus-visible{opacity:.85}
 .gift .fine{margin-top:16px}
