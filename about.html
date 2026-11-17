@@ -54,13 +54,14 @@ document.addEventListener('submit',function(e){
   var K='ljt_mailer', el=document.getElementById('slidein'); if(!el)return;
   function get(){try{return localStorage.getItem(K)}catch(e){return null}}
   function set(v){try{localStorage.setItem(K,v)}catch(e){}}
-  var st=get(); if(st==='joined')return; if(st&&+st>Date.now())return;
+  var test=/[?&]mailer=1/.test(location.search);
+  var st=get(); if(!test&&st==='joined')return; if(!test&&st&&+st>Date.now())return;
   var seen=false, shown=false;
   var inline=[].slice.call(document.querySelectorAll('main form.signup'));
   if('IntersectionObserver' in window&&inline.length){var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting)seen=true})});inline.forEach(function(f){io.observe(f)});}
-  function show(){if(shown||seen)return;shown=true;el.hidden=false;requestAnimationFrame(function(){requestAnimationFrame(function(){el.classList.add('in')})});}
+  function show(force){if(shown||(seen&&!force))return;shown=true;el.hidden=false;void el.offsetWidth;setTimeout(function(){el.classList.add('in')},30);}
   function hide(days){el.classList.remove('in');setTimeout(function(){el.hidden=true},400);set(String(Date.now()+days*864e5));}
-  setTimeout(show,20000);
+  if(test){setTimeout(function(){show(true)},800)}else{setTimeout(show,20000)}
   addEventListener('scroll',function(){var d=document.documentElement;if((scrollY+innerHeight)/d.scrollHeight>0.5)show()},{passive:true});
   el.querySelector('.si-x').addEventListener('click',function(){hide(30)});
   addEventListener('keydown',function(e){if(e.key==='Escape'&&shown)hide(30)});
