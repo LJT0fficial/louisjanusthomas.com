@@ -20,8 +20,11 @@ jobs:
         run: |
           set -e
           [ -n "$KEY" ] || { echo "MAILCHIMP_API_KEY secret not set yet"; exit 0; }
+          KEY=$(printf %s "$KEY" | tr -d '[:space:]')
           DC="${KEY##*-}"
-          n=$(curl -sf -u "vault:$KEY" "https://$DC.api.mailchimp.com/3.0/lists/c5436ca392/members?status=subscribed&count=1&fields=total_items" | python3 -c "import sys,json;print(json.load(sys.stdin)['total_items'])")
+          code=$(curl -s -o resp.json -w '%{http_code}' -u "vault:$KEY" "https://$DC.api.mailchimp.com/3.0/lists/c5436ca392/members?status=subscribed&count=1&fields=total_items")
+          if [ "$code" != "200" ]; then echo "Mailchimp said HTTP $code:"; python3 -c "import json;d=json.load(open('resp.json'));print(d.get('title'),'-',d.get('detail'))"; exit 1; fi
+          n=$(python3 -c "import json;print(json.load(open('resp.json'))['total_items'])")
           left=$((100 - n)); [ "$left" -lt 0 ] && left=0
           echo "subscribed=$n left=$left"
           printf '{"left": %d}\n' "$left" > vault/count.json
