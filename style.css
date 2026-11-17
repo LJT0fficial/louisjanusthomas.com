@@ -66,7 +66,7 @@ h2{font-weight:700;font-size:clamp(22px,2.4vw,30px);line-height:1.1}
 .signup button:disabled{cursor:default}
 .fine a{text-decoration:underline;text-underline-offset:3px}
 .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-.slidein{position:fixed;right:24px;bottom:24px;z-index:50;width:min(380px,calc(100vw - 32px));background:var(--bg);border:1px solid var(--line);padding:22px 22px 18px;box-shadow:0 24px 60px rgba(0,0,0,.45);opacity:0;transform:translateY(14px);transition:opacity .45s cubic-bezier(.2,.7,.2,1),transform .45s cubic-bezier(.2,.7,.2,1)}
+.slidein{position:fixed;right:24px;bottom:24px;z-index:50;width:min(380px,calc(100vw - 32px));background:#1a1a18;border:1px solid #3a3a37;padding:22px 22px 18px;box-shadow:0 0 0 1px rgba(0,0,0,.6),0 30px 80px rgba(0,0,0,.85),0 10px 24px rgba(0,0,0,.6);opacity:0;transform:translateY(14px);transition:opacity .45s cubic-bezier(.2,.7,.2,1),transform .45s cubic-bezier(.2,.7,.2,1)}
 .slidein.in{opacity:1;transform:none}
 .slidein .meta{margin:0 0 8px}
 .slidein .si-h{font:700 22px/1.1 Syne,sans-serif;letter-spacing:-.01em;margin:0 0 16px}
