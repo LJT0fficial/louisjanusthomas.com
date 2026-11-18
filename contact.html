@@ -65,5 +65,64 @@ document.addEventListener('submit',function(e){
   document.addEventListener('submit',function(e){if(e.target.closest&&e.target.closest('.slidein')||e.target.classList.contains('signup')){setTimeout(function(){if(document.querySelector('.signup.done'))set('joined')},4000)}});
 })();
 </script>
+<div class="deck" id="deck" data-tracks='[{&quot;s&quot;: &quot;audio/inst/sandfeet.mp3&quot;, &quot;t&quot;: &quot;Sandfeet&quot;}, {&quot;s&quot;: &quot;audio/inst/latino-booty-sunrise.mp3&quot;, &quot;t&quot;: &quot;Latino Booty Sunrise&quot;}, {&quot;s&quot;: &quot;audio/inst/filter-tips.mp3&quot;, &quot;t&quot;: &quot;Filter Tips&quot;}, {&quot;s&quot;: &quot;audio/inst/auspicious-momentum.mp3&quot;, &quot;t&quot;: &quot;Auspicious Momentum&quot;}, {&quot;s&quot;: &quot;audio/inst/strawberry-daiquiri.mp3&quot;, &quot;t&quot;: &quot;Strawberry Daiquiri&quot;}]' role="region" aria-label="Instrumentals player"><div class="lcd"><span class="lcd-n">01</span><span class="lcd-t"><span>Sandfeet</span></span><span class="lcd-tm">0:00</span></div><div class="bar" role="slider" aria-label="Seek" tabindex="0" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i></i></div><div class="keys"><span class="lbl">Instrumentals</span><button class="k-prev" type="button" aria-label="Previous"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 2.5h2v11H3zM14 2.5v11L5.5 8z" fill="currentColor"/></svg></button><button class="k-play" type="button" aria-label="Play"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z" fill="currentColor"/></svg></button><button class="k-next" type="button" aria-label="Next"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M11 2.5h2v11h-2zM2 2.5v11L10.5 8z" fill="currentColor"/></svg></button><button class="k-min" type="button" aria-label="Minimise player" aria-expanded="true"><span></span></button></div></div><script>
+(function(){
+  var d=document.getElementById('deck'); if(!d)return;
+  var T=JSON.parse(d.getAttribute('data-tracks')), a=new Audio(), i=0, K='ljt_deck';
+  a.preload='none';
+  var n=d.querySelector('.lcd-n'), t=d.querySelector('.lcd-t span'), tm=d.querySelector('.lcd-tm'), bar=d.querySelector('.bar'), fill=bar.querySelector('i'),
+      pb=d.querySelector('.k-play'), PLAY=pb.innerHTML, PAUSE='<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 2.5h3v11h-3zM9.5 2.5h3v11h-3z" fill="currentColor"/></svg>';
+  function fmt(s){s=Math.max(0,Math.floor(s||0));return Math.floor(s/60)+':'+('0'+s%60).slice(-2)}
+  function save(){try{sessionStorage.setItem(K,JSON.stringify({i:i,t:a.currentTime||0,p:!a.paused}))}catch(e){}}
+  function show(){n.textContent=('0'+(i+1)).slice(-2);t.textContent=T[i].t;
+    d.classList.toggle('long',t.scrollWidth>t.parentNode.clientWidth);
+    if('mediaSession' in navigator){try{navigator.mediaSession.metadata=new MediaMetadata({title:T[i].t+' (Instrumental)',artist:'Louis Janus Thomas',artwork:[{src:'images/icon-512.png',sizes:'512x512',type:'image/png'}]})}catch(e){}}}
+  function load(k,play,at){i=(k+T.length)%T.length;a.src=T[i].s;show();if(at){var f=function(){a.removeEventListener('loadedmetadata',f);try{a.currentTime=at}catch(e){}};a.addEventListener('loadedmetadata',f)}if(play)go()}
+  function go(){var p=a.play();if(p&&p.catch)p.catch(function(){})}
+  function toggle(){if(!a.src)load(i,true);else if(a.paused)go();else a.pause()}
+  pb.addEventListener('click',toggle);
+  d.querySelector('.k-prev').addEventListener('click',function(){if(a.currentTime>3){a.currentTime=0;return}load(i-1,!a.paused||!a.src)});
+  d.querySelector('.k-next').addEventListener('click',function(){load(i+1,!a.paused||!a.src)});
+  var mb=d.querySelector('.k-min');
+  function mini(on){d.classList.toggle('min',on);mb.setAttribute('aria-expanded',String(!on));mb.setAttribute('aria-label',on?'Open player':'Minimise player');try{localStorage.setItem(K+'_min',on?'1':'')}catch(e){}}
+  mb.addEventListener('click',function(){mini(!d.classList.contains('min'))});
+  try{if(localStorage.getItem(K+'_min'))mini(true)}catch(e){}
+  a.addEventListener('play',function(){d.classList.add('on');pb.innerHTML=PAUSE;pb.setAttribute('aria-label','Pause');save()});
+  a.addEventListener('pause',function(){d.classList.remove('on');pb.innerHTML=PLAY;pb.setAttribute('aria-label','Play');save()});
+  a.addEventListener('ended',function(){load(i+1,true)});
+  a.addEventListener('timeupdate',function(){tm.textContent=fmt(a.currentTime);var p=a.duration?a.currentTime/a.duration*100:0;fill.style.width=p+'%';bar.setAttribute('aria-valuenow',Math.round(p))});
+  setInterval(function(){if(!a.paused)save()},2000);
+  function seek(x){var r=bar.getBoundingClientRect();if(a.duration)a.currentTime=Math.min(1,Math.max(0,(x-r.left)/r.width))*a.duration}
+  bar.addEventListener('click',function(e){if(!a.src)return;seek(e.clientX)});
+  bar.addEventListener('keydown',function(e){if(!a.duration)return;if(e.key==='ArrowRight')a.currentTime+=5;if(e.key==='ArrowLeft')a.currentTime-=5});
+  if('mediaSession' in navigator){try{navigator.mediaSession.setActionHandler('previoustrack',function(){load(i-1,true)});navigator.mediaSession.setActionHandler('nexttrack',function(){load(i+1,true)})}catch(e){}}
+  try{var st=JSON.parse(sessionStorage.getItem(K)||'null');if(st&&T[st.i]){i=st.i;a.preload='auto';load(i,st.p,st.t)}else show()}catch(e){show()}
+  addEventListener('pagehide',save);
+
+  /* Keep the music going between pages: swap the page content instead of reloading. The Vault opens as a normal page. */
+  function swap(url,push){
+    return fetch(url,{credentials:'same-origin'}).then(function(r){if(!r.ok)throw 0;return r.text()}).then(function(h){
+      var x=new DOMParser().parseFromString(h,'text/html');
+      if(x.body.classList.contains('bare')||!x.querySelector('main')){location.href=url;return}
+      document.title=x.title;
+      var m=document.querySelector('main'), nm=x.querySelector('main'); m.replaceWith(nm);
+      var nv=x.querySelector('header.top nav'), ov=document.querySelector('header.top nav'); if(nv&&ov)ov.replaceWith(nv);
+      [].forEach.call(nm.querySelectorAll('script'),function(s){var c=document.createElement('script');[].forEach.call(s.attributes,function(at){c.setAttribute(at.name,at.value)});c.text=s.text;s.replaceWith(c)});
+      if(push)history.pushState({deck:1},'',url);
+      var h2=new URL(url,location.href).hash; if(h2&&document.querySelector(h2))document.querySelector(h2).scrollIntoView();else scrollTo(0,0);
+    }).catch(function(){location.href=url});
+  }
+  if(window.fetch&&window.DOMParser&&history.pushState&&location.protocol!=='file:'){
+    document.addEventListener('click',function(e){
+      var l=e.target.closest&&e.target.closest('a'); if(!l||e.defaultPrevented||e.button||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;
+      if(l.target||l.hasAttribute('download')||l.closest('#deck'))return;
+      var u=new URL(l.href,location.href); if(u.origin!==location.origin||/vault/.test(u.pathname)||!/(\.html|\/)$/.test(u.pathname))return;
+      if(u.pathname===location.pathname&&u.hash)return;
+      e.preventDefault(); swap(u.href,true);
+    });
+    addEventListener('popstate',function(){swap(location.href,false)});
+  }
+})();
+</script>
 </body>
 </html>
